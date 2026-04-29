@@ -1,5 +1,5 @@
 import re
-from config import KEYWORDS, GCS_SERVICE_ACCOUNT_FILE, WHITELIST_GCS_BUCKET, WHITELIST_GCS_BLOB
+from config import KEYWORDS, AWS_REGION, SSM_WHITELIST_PARAM
 
 def contains_keyword(text: str) -> bool:
     return find_keyword(text) is not None
@@ -18,18 +18,11 @@ def detect_language(text: str) -> str:
     return "English"
 
 def load_whitelist() -> set[str]:
-    from google.cloud import storage
-    from google.oauth2 import service_account
-    creds = service_account.Credentials.from_service_account_file(GCS_SERVICE_ACCOUNT_FILE)
-    client = storage.Client(credentials=creds)
-    bucket = client.bucket(WHITELIST_GCS_BUCKET)
-    blob = bucket.blob(WHITELIST_GCS_BLOB)
-    content = blob.download_as_text(encoding="utf-8")
-    return {
-        line.strip().lower()
-        for line in content.splitlines()
-        if line.strip() and not line.startswith("#")
-    }
+    import boto3, json
+    client = boto3.client("ssm", region_name=AWS_REGION)
+    r = client.get_parameter(Name=SSM_WHITELIST_PARAM)
+    emails = json.loads(r["Parameter"]["Value"])
+    return {e.strip().lower() for e in emails}
 
 def extract_email(sender: str) -> str:
     match = re.search(r"<(.+?)>", sender)
