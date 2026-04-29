@@ -21,6 +21,9 @@ def generate_reply(email_body: str, language: str) -> dict:
         messages=[{"role": "user", "content": prompt}],
     )
     raw = response.content[0].text.strip()
+    if raw.startswith("```"):
+        raw = raw.split("\n", 1)[1]
+        raw = raw.rsplit("```", 1)[0].strip()
     try:
         result = json.loads(raw)
     except json.JSONDecodeError as e:
