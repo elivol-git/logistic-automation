@@ -11,7 +11,7 @@ LAST_RUN_FILE = "last_run.txt"
 def _read_last_run() -> int | None:
     if os.path.exists(LAST_RUN_FILE):
         with open(LAST_RUN_FILE) as f:
-            return int(f.read().strip())
+            return int(f.read().strip()) - 3600
     return None
 
 def _save_last_run(ts: int):
