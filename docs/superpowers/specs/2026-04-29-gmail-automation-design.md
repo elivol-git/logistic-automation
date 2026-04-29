@@ -59,7 +59,7 @@ Cron (every 5 min)
 ## Rules / Trigger Cases
 
 **Case 1:**  
-- Keywords: `פריקת מכולות`, `פריקת המכולה`  
+- Keywords: `פריקת מכולות`, `פריקת המכולה`, `unload container`, `unload containers`  
 - Action: auto-reply + notify
 
 *(More cases to be added in future iterations)*
@@ -69,7 +69,7 @@ Cron (every 5 min)
 ## Configuration (`config.py`)
 
 ```python
-KEYWORDS = ["פריקת מכולות", "פריקת המכולה"]
+KEYWORDS = ["פריקת מכולות", "פריקת המכולה", "unload container", "unload containers"]
 NOTIFICATION_EMAIL = "you@example.com"
 POLL_INTERVAL_MINUTES = 5
 CLAUDE_MODEL = "claude-sonnet-4-6"
