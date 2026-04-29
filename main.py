@@ -1,7 +1,7 @@
 import time
 import os
 import config
-from detector import find_keyword, detect_language, is_whitelisted
+from detector import find_keyword, detect_language, is_whitelisted, extract_email
 from logger import get_logger
 import gmail_client as _gmail_module
 import claude_client as _claude_module
@@ -66,10 +66,11 @@ def process_emails():
             logger.error(f"Claude failed for {email['sender']}: {e}")
             continue
 
-        print(f"  Sending reply to {email['sender']}...")
+        reply_to = extract_email(email["sender"])
+        print(f"  Sending reply to {reply_to}...")
         try:
             gmail.send_email(
-                to=email["sender"],
+                to=reply_to,
                 subject=reply["subject"],
                 body=reply["body"],
                 reply_to_id=email["message_id"],
