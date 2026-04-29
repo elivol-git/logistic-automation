@@ -1,7 +1,7 @@
 import time
 import os
 import config
-from detector import find_keyword, detect_language
+from detector import find_keyword, detect_language, is_whitelisted
 from logger import get_logger
 import gmail_client as _gmail_module
 import claude_client as _claude_module
@@ -55,11 +55,12 @@ def process_emails():
             continue
 
         language = detect_language(email["body"])
-        print(f"  MATCH: {email['sender']} | keyword='{keyword}' | lang={language}")
+        whitelisted = is_whitelisted(email["sender"])
+        print(f"  MATCH: {email['sender']} | keyword='{keyword}' | lang={language} | pricing={'yes' if whitelisted else 'no'}")
 
         print(f"  Generating reply with Claude...")
         try:
-            reply = claude_client.generate_reply(email["body"], language)
+            reply = claude_client.generate_reply(email["body"], language, include_pricing=whitelisted)
         except Exception as e:
             print(f"  ERROR: Claude failed: {e}")
             logger.error(f"Claude failed for {email['sender']}: {e}")

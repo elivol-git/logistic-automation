@@ -1,0 +1,4 @@
+# Whitelisted senders — pricing will be included in auto-reply
+# One email address per line. Lines starting with # are ignored.
+# Example:
+# client@example.com
