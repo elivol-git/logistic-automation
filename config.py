@@ -6,8 +6,13 @@ load_dotenv()
 KEYWORDS = [
     "פריקת מכולות",
     "פריקת המכולה",
+    "פריקת מכולה",
+    "פריקת מכולה",
     "unload container",
+    "unload a container",
+    "unload the container",
     "unload containers",
+    "разгрузка контейнера",
 ]
 
 NOTIFICATION_EMAIL = os.environ["NOTIFICATION_EMAIL"]
@@ -17,3 +22,6 @@ CLAUDE_API_KEY = os.environ["CLAUDE_API_KEY"]
 GMAIL_CREDENTIALS_FILE = os.getenv("GMAIL_CREDENTIALS_FILE", "credentials.json")
 GMAIL_TOKEN_FILE = os.getenv("GMAIL_TOKEN_FILE", "token.json")
 LOG_FILE = os.getenv("LOG_FILE", "automation.log")
+GCS_SERVICE_ACCOUNT_FILE = os.getenv("GCS_SERVICE_ACCOUNT_FILE", "service_account.json")
+WHITELIST_GCS_BUCKET = os.getenv("WHITELIST_GCS_BUCKET", "")
+WHITELIST_GCS_BLOB = os.getenv("WHITELIST_GCS_BLOB", "whitelist.txt")
