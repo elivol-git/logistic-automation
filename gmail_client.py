@@ -46,9 +46,10 @@ class GmailClient:
     def __init__(self):
         self._service = build_service()
 
-    def fetch_unread(self) -> list[dict]:
+    def fetch_unread(self, after_timestamp: int | None = None) -> list[dict]:
+        query = f"after:{after_timestamp}" if after_timestamp else ""
         result = self._service.users().messages().list(
-            userId="me", labelIds=["INBOX", "UNREAD"]
+            userId="me", labelIds=["INBOX", "UNREAD"], q=query
         ).execute()
         messages = result.get("messages", [])
         emails = []
